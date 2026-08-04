@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <title>Keyword Updater Tool - CBA Utils</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1>
+                Keyword Updater
+            </h1>
+
+            <form>
+                <fieldset>
+                    <legend>Upload File</legend>
+                    <input 
+                        type="text"
+                        id="uploadedFilePath"
+                        value="Please select a file..."
+                        readonly
+                        disabled
+                        name="uploadedFilePath"
+                    />
+
+                    <input 
+                        type="button"
+                        id="fileUpload"
+                        value="Upload File"
+                    />
+                </fieldset>
+                <fieldset>
+                    <legend>Set Date Range</legend>
+                    <input
+                        type="text"
+                        id="dateRanges"
+                        placeholder="5/2026,6/2026,7/2026"
+                    />
+                </fieldset>
+
+                <input 
+                    type="button"
+                    value="Start Process"
+                    id="submitBtn"
+                />
+                <!--
+                <button id="submitBtn">
+                    Process File
+                </button>
+                -->
+                
+                <button
+                    id="downloadBtn"
+                    style="display:none;"
+                >
+                    Download Processed File
+                </button>
+            </form>
+
+            <div id="status"></div>
+
+        </div>
+
+        <script src="./renderer.js"></script>
+    </body>
+</html>

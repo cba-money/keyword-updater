@@ -1,0 +1,52 @@
+{
+  "name": "keyword-updater",
+  "version": "0.0.1",
+  "description": "This program simply iterates through all .xlsx files in a given directory and updates all instances of a keyword with an associated definition",
+  "homepage": "https://github.com/cba-money/keyword-updater#readme",
+  "bugs": {
+    "url": "https://github.com/cba-money/keyword-updater/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cba-money/keyword-updater.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Tyler Ruff",
+    "email": "rufft@cbamoney.com"
+  },
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --x64 --publish never",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0"
+  },
+  "devDependencies": {
+    "electron": "^43.2.0",
+    "electron-builder": "^26.15.3"
+  },
+  "allowScripts": {
+    "electron-winstaller@5.4.0": true
+  },
+  "build": {
+    "appId": "com.cbautils.keywords",
+    "files": [
+      "**/*"
+    ],
+    "win": {
+      "target": ["nsis"]
+    },
+
+    "mac": {
+      "target": ["dmg"]
+    },
+
+    "linux": {
+      "target": ["AppImage", "deb"]
+    }
+  }
+}
