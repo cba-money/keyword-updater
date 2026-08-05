@@ -37,6 +37,25 @@ async function selectLocalFile() {
   }
 }
 
+async function selectLocalFolder(){
+    const focusedWindow = BrowserWindow.getFocusedWindow();
+    /*
+    const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
+      properties: ['openDirectory'] // Enables folder selection instead of files
+    });
+    */
+   
+    const result = await dialog.showOpenDialog(focusedWindow, {
+      properties: ['openDirectory'],
+    });
+    
+    if (result.canceled) {
+      return null;
+    } else {
+      return result.filePaths; // Returns the full absolute path of the chosen folder
+    }
+}
+
 app.whenReady().then(createWindow);
 
 ipcMain.handle("upload-file", async (_) => {
