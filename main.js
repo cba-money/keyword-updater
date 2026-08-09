@@ -1,7 +1,10 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 
-const { startProcess } = require("./updater/fileUpdater");
+const isDev = require("./util").isDev;
+
+//const { startProcess } = require("./updater/fileUpdater");
+const { replaceWorkbookValuesTest } = require("./updater/testUpdater");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -10,7 +13,12 @@ function createWindow() {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true
-    }
+    },
+    nodeIntegration: false,
+    contextIsolation: true,
+    sandbox: true,
+    webSecurity: true,
+    devTools: isDev(),
   });
 
   // Load main window page
@@ -62,18 +70,23 @@ ipcMain.handle("upload-file", async (_) => {
     return await selectLocalFile();
 });
 
-/*
+
 ipcMain.handle("process-file", async (_, data) => {
   console.log(data);
 
+  /*
   const outputFile = await processWorkbook(
     data.filePath,
     data.dateRanges
   );
+  */
+ const outputFile = await replaceWorkbookValuesTest(
+    data.filePath
+  );
 
   return outputFile;
 });
-*/
+
 
 ipcMain.handle("save-output", async (_, sourcePath) => {
   const result = await dialog.showSaveDialog({

@@ -1,6 +1,6 @@
 {
   "name": "keyword-updater",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "This program simply iterates through all .xlsx files in a given directory and updates all instances of a keyword with an associated definition",
   "homepage": "https://github.com/cba-money/keyword-updater#readme",
   "bugs": {
@@ -19,6 +19,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "dev": "electron . --enable-logging --trace-warnings",
     "dist": "electron-builder --x64 --publish never",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
