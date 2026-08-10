@@ -2,8 +2,8 @@ let generatedFile = null;
 
 async function uploadFile(){
   const file = await window.electronAPI.uploadFile();
-  if(file === undefined){
-      document.getElementById('uploadedFilePath').value = "Please select a file...";
+  if(file === undefined || file === null || file.length <= 0){
+      document.getElementById('uploadedFilePath').value = "Please select a folder...";
       return;
   }
   console.log(`File uploaded:${file}`);
@@ -39,9 +39,10 @@ document
 
     document.getElementById('status').innerText = "Finished.";
 
-    document.getElementById('downloadBtn').style.display = "inline-block";
+    //document.getElementById('downloadBtn').style.display = "inline-block";
   });
 
+/*
 document
   .getElementById('downloadBtn')
   .addEventListener('click', async () => {
@@ -49,3 +50,4 @@ document
       generatedFile
     );
   });
+*/

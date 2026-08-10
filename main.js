@@ -3,8 +3,7 @@ const path = require("path");
 
 const isDev = require("./util").isDev;
 
-//const { startProcess } = require("./updater/fileUpdater");
-const { replaceWorkbookValuesTest } = require("./updater/testUpdater");
+const { startProcess } = require("./updater/fileUpdater");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -25,9 +24,6 @@ function createWindow() {
   win.loadFile(
     path.join(__dirname, "renderer", "index.html")
   );
-
-  //startProcess("C:\\Users\\Alexa\\Dropbox\\RUFF", "");
-
 }
 
 async function selectLocalFile() {
@@ -47,44 +43,28 @@ async function selectLocalFile() {
 
 async function selectLocalFolder(){
     const focusedWindow = BrowserWindow.getFocusedWindow();
-    /*
-    const { canceled, filePaths } = await dialog.showOpenDialog(mainWindow, {
-      properties: ['openDirectory'] // Enables folder selection instead of files
-    });
-    */
    
     const result = await dialog.showOpenDialog(focusedWindow, {
       properties: ['openDirectory'],
     });
     
-    if (result.canceled) {
-      return null;
-    } else {
-      return result.filePaths; // Returns the full absolute path of the chosen folder
+     if (result.canceled || result.filePaths.length === 0) {
+        return null;
     }
+
+    return result.filePaths[0];
 }
 
 app.whenReady().then(createWindow);
 
 ipcMain.handle("upload-file", async (_) => {
-    return await selectLocalFile();
+    return await selectLocalFolder();
 });
 
 
 ipcMain.handle("process-file", async (_, data) => {
-  console.log(data);
-
-  /*
-  const outputFile = await processWorkbook(
-    data.filePath,
-    data.dateRanges
-  );
-  */
- const outputFile = await replaceWorkbookValuesTest(
-    data.filePath
-  );
-
-  return outputFile;
+  const output = await startProcess(data.filePath);
+  return output;
 });
 
 
