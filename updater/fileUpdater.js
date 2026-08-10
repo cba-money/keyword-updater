@@ -162,7 +162,7 @@ function replaceTextNodes(xml, replacementMap) {
  * formulas, cell references, styles, etc.
  * * Fix #1: Case-insensitive regular expression rather than includes()/split().join().
  */
-
+/*
 function replaceTextNodes(xml, replacementMap) {
     let replacementsMade = 0;
 
@@ -198,7 +198,59 @@ function replaceTextNodes(xml, replacementMap) {
         replacementsMade,
     };
 }
+*/
+/**
+ * Replace values inside XML <t> text nodes.
+ *
+ * Excel uses <t> elements for:
+ *
+ * - Shared strings
+ * - Rich text
+ * - Inline strings
+ *
+ * We deliberately ONLY modify the contents of <t>...</t>.
+ * This prevents us from accidentally changing XML attributes,
+ * formulas, cell references, styles, etc.
+ */
+function replaceTextNodes(xml, replacementMap) {
+    let replacementsMade = 0;
 
+    const updatedXml = xml.replace(
+        /(<t(?:\s[^>]*)?>)([\s\S]*?)(<\/t>)/gi,
+        (fullMatch, openingTag, textContent, closingTag) => {
+            let text = decodeXml(textContent);
+
+            for (const [oldValue, newValue] of Object.entries(replacementMap)) {
+                // Escape regex special characters in the replacement key.
+                const escapedOldValue = oldValue.replace(
+                    /[.*+?^${}()|[\]\\]/g,
+                    "\\$&"
+                );
+
+                /**
+                 * UPDATED REGEX:
+                 * ^               = Must be at the start of the string
+                 * (?=$| -)        = Must be followed by the end of the string ($) OR " -"
+                 */
+                const regex = new RegExp(`^${escapedOldValue}(?=$| -)`, "gi");
+
+                const matches = text.match(regex);
+
+                if (matches) {
+                    replacementsMade += matches.length;
+                    text = text.replace(regex, newValue);
+                }
+            }
+
+            return `${openingTag}${escapeXml(text)}${closingTag}`;
+        }
+    );
+
+    return {
+        xml: updatedXml,
+        replacementsMade,
+    };
+}
 
 /**
  * Determine whether a ZIP entry is an XML file containing

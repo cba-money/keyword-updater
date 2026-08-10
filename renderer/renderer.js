@@ -27,14 +27,13 @@ document
     }
     */
 
-    const dateRanges = document.getElementById('dateRanges').value;
+    //const dateRanges = document.getElementById('dateRanges').value;
 
     document.getElementById('status').innerText = "Processing...";
 
     generatedFile =
       await window.electronAPI.processFile({
-        filePath: filePath,
-        dateRanges
+        filePath: filePath
       });
 
     document.getElementById('status').innerText = "Finished.";
