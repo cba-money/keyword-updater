@@ -8,7 +8,7 @@ const { startProcess } = require("./updater/fileUpdater");
 function createWindow() {
   const win = new BrowserWindow({
     width: 700,
-    height: 500,
+    height: 400,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       contextIsolation: true

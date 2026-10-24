@@ -27,6 +27,27 @@ button {
     cursor: pointer;
 }
 
+.file-upload-container{
+    display: flex;
+    align-items: center;
+}
+
+.file-upload-button{
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+.file-upload-label{
+    display: inline-block;
+}
+
+.file-upload-path{
+    display: inline-block;
+    width: 70%;
+    padding: 10px;
+    margin-right: 10px;
+}
+
 #status {
     margin-top: 20px;
 }
